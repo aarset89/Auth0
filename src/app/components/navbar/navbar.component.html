@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <a
+    class="navbar-brand"
+    [routerLink]="['/home']"
+    routerLinkActive="router-link-active"
+    >Auth0 App</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/home']" routerLinkActive="active"
+          >Home</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/precios']"
+          routerLinkActive="active"
+          >Link</a
+        >
+      </li>
+      <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
+        <a
+          class="nav-link"
+          [routerLink]="['/protegida']"
+          routerLinkActive="active"
+          >Protegida</a
+        >
+      </li>
+    </ul>
+
+    <ng-template #loggedOut>
+      <button
+        class="btn btn-outline-success my-2 my-sm-0"
+        (click)="
+          auth.loginWithRedirect({ returnTo: 'http://localhost:4200/home' })
+        "
+      >
+        Log In
+      </button>
+    </ng-template>
+    <ng-container
+      ><button
+        class="btn btn-outline-danger my-2 my-sm-0"
+        (click)="auth.logout({ returnTo: 'http://localhost:4200/home' })"
+        *ngIf="auth.isAuthenticated$ | async; else loggedOut"
+      >
+        Log Out
+      </button>
+    </ng-container>
+  </div>
+</nav>
